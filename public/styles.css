@@ -4,6 +4,7 @@ body {
   padding: 0 50px;
   background-color: orange;
   font-size: 30px;
+  font-weight: 400;
 }
 
 .error-msg {
@@ -36,12 +37,20 @@ ul {
   padding: 10px 50px;
 }
 
+li {
+  border-bottom: 2px solid black;
+}
+
 button {
-  border: none;
+  border: 1px solid gray;
   background-color: white;
   color: gray;
-  margin: 2px 10px 2px 0;
+  margin: 10px 10px 10px 0;
   font-family: 'Amatic SC', sans-serif;
   font-size: 0.8em;
-  line-height: 1.1em;
+  line-height: 1.5em;
+}
+
+.creation {
+  font-size: 1.0rem;
 }

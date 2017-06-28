@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const model = require('./models');
+const models = require('./models');
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -20,7 +20,10 @@ app.use('/resources', express.static(path.join(__dirname, 'public')));
 
 // index view for the todo list
 app.get('/', function(req, res) {
-  res.render('index', { todos: models.Todo.findAll()});
+  models.Todo.findAll().then(function(items) {
+    res.render('index', { todos: items });
+  })
+
 });
 
 // handle add form POST method
@@ -29,7 +32,9 @@ app.post('/add', function(req, res) {
   const errors = req.validationErrors();
   if (errors) {
     console.log(errors);
-    res.render('index', { errorMessage: errors[0].msg, todos: models.Todo.findAll() });
+    models.Todo.findAll().then(function(items) {
+      res.render('index', { errorMessage: errors[0].msg, todos: items });
+    });
   } else {
     models.Todo.create({item: req.body.item})
     .then(function(newItem) {
@@ -41,12 +46,26 @@ app.post('/add', function(req, res) {
 
 // handle complete form POST method
 app.post('/complete', function(req, res) {
-  models.Todo.findById(req.body.check).then(function(todo) {
-    todo.update()
-  })
+  const now = Date.now();
+  models.Todo.findById(req.body.check)
+    .then(function(item) {
+      item.update({ completedAt: now }) })
+    .then(function() {
+      res.redirect('/');
+    });
+});
 
-  //eventually we'll send back to '/'
-  res.redirect('/');
+// handle the delete form POST method
+app.post('/clear', function(req, res) {
+  models.Todo.destroy({
+    where: {
+      completedAt: {
+        $ne: null
+      }
+    }
+  }).then(function() {
+    res.redirect('/');
+  });
 });
 
 app.listen(3030, function() { console.log("Runnin' on empty..."); });

@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GET $H!T DONE</title>
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="resources/styles.css">
   </head>
   <body>
     <h1>$H!T TO DO</h1>
     <div class="form">
       <form class="form" id="add-item" action="/add" method="post">
-        <input type="text" name="item" placeholder="Type in some $h!t to do" value="">
+        <input type="text" name="item" placeholder="Type in some $h!t to do" value="" autofocus>
         <button type="submit" form="add-item" name="button">Add the $h!t</button>
       </form>
     </div>
@@ -26,21 +26,25 @@
           {{#todos}}
             <div class="todo-new">
               {{^completedAt}}
-                <li><button type="submit" id="{{id}}" name="check" value="{{id}}">Click when the $h!t is done -&gt;</button>{{item}}</li>
+                <li><button type="submit" id="{{id}}" name="check" value="{{id}}">Click when the $h!t is done -&gt;</button>
+                  {{item}}&nbsp;<span class="creation">Added: {{createdAt}}</span></li>
               {{/completedAt}}
             </div>
           {{/todos}}
         </ul>
-        <h2>$h!t I Done Did</h2>
+        <h2>$h!t You Done Did</h2>
         <ul>
           {{#todos}}
             <div class="todo-completed">
-              {{#completed}}
-                <li><span class="completed-item">{{item}}</span></li>
-              {{/completed}}
+              {{#completedAt}}
+                <li><span class="completed-item">{{item}}</span>&nbsp;<span class="creation">Done: {{completedAt}}</span></li>
+              {{/completedAt}}
             </div>
           {{/todos}}
         </ul>
+      </form>
+      <form class="form" action="/clear" method="post">
+        <button type="submit" name="clear">Clear This $h!t I Done Did</button>
       </form>
 
     </div>
