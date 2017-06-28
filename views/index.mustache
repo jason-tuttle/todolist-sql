@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GET $H!T DONE</title>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="static/styles.css">
+  </head>
+  <body>
+    <h1>$H!T TO DO</h1>
+    <div class="form">
+      <form class="form" id="add-item" action="/add" method="post">
+        <input type="text" name="item" placeholder="Type in some $h!t to do" value="">
+        <button type="submit" form="add-item" name="button">Add the $h!t</button>
+      </form>
+    </div>
+    <div>
+      <p class="error-msg">{{errorMessage}}&nbsp;</p>
+    </div>
+    <div class="todo-list">
+      <h2>List of $h!t You Still Have To Do</h2>
+      <form class="list" action="/complete" method="post">
+        <ul>
+          {{#todos}}
+            <div class="todo-new">
+              {{^completedAt}}
+                <li><button type="submit" id="{{id}}" name="check" value="{{id}}">Click when the $h!t is done -&gt;</button>{{item}}</li>
+              {{/completedAt}}
+            </div>
+          {{/todos}}
+        </ul>
+        <h2>$h!t I Done Did</h2>
+        <ul>
+          {{#todos}}
+            <div class="todo-completed">
+              {{#completed}}
+                <li><span class="completed-item">{{item}}</span></li>
+              {{/completed}}
+            </div>
+          {{/todos}}
+        </ul>
+      </form>
+
+    </div>
+
+  </body>
+</html>
